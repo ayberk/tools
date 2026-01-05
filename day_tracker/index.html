@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/pwa-192x192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="description" content="Track day length, sunrise, sunset, and twilight phases for any location. visualize the sun path and seasonal changes." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Day Length Tracker" />
+    <meta property="og:description" content="Track day length, sunrise, sunset, and twilight phases for any location." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/pwa-512x512.png" />
+
+    <link rel="apple-touch-icon" href="/pwa-192x192.png">
+    <title>Day Length Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css">
+  </head>
+  <body>
+    <main id="app">
+      <div class="card">
+        <h1>Day Tracker</h1>
+        <p class="subtitle">Discover the daylight hours for any location</p>
+
+        <form id="search-form">
+          <div class="input-group">
+            <input type="text" id="address-input" placeholder=" " required autocomplete="off" />
+            <label for="address-input">Enter City or Zipcode</label>
+            <button type="button" id="locate-btn" title="Use my current location" aria-label="Use current location">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+            </button>
+            <div class="underline"></div>
+          </div>
+          <button type="submit" id="search-btn">
+            <span class="btn-text">Check Daylight</span>
+            <div class="loader hidden"></div>
+          </button>
+        </form>
+
+        <div id="error-message" class="hidden"></div>
+
+        <div id="result-container" class="hidden">
+          <div class="result-item">
+            <span class="label">Location</span>
+            <span id="location-name" class="value">--</span>
+            <div id="local-time" class="local-time">--:--</div>
+          </div>
+          <div class="divider"></div>
+
+          <div class="sun-cycle-container">
+            <svg id="sun-path-svg" viewBox="0 0 200 100" preserveAspectRatio="xMidYMax meet">
+                <!-- Semicircle Path (dashed) -->
+                <path id="sun-arc" d="M 20,90 A 80,80 0 0 1 180,90" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="5,5" />
+
+                <!-- Moving Sun Icon -->
+                <g id="sun-icon-group">
+                    <circle cx="0" cy="0" r="8" fill="#ffd700" filter="url(#glow)" />
+                    <!-- Rays -->
+                    <line x1="0" y1="-12" x2="0" y2="-8" stroke="#ffd700" stroke-width="2" />
+                    <line x1="0" y1="12" x2="0" y2="8" stroke="#ffd700" stroke-width="2" />
+                    <line x1="-12" y1="0" x2="-8" y2="0" stroke="#ffd700" stroke-width="2" />
+                    <line x1="12" y1="0" x2="8" y2="0" stroke="#ffd700" stroke-width="2" />
+                </g>
+
+                <!-- Glow Filter -->
+                <defs>
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+            </svg>
+            <div class="sun-labels">
+                <span>Sunrise</span>
+                <span>Sunset</span>
+            </div>
+          </div>
+
+          <div class="result-row">
+             <div class="result-item small">
+              <span class="label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.91 11.63c1.77 2.9 2.05 4.58 1.52 7.56C17.44 19.35 15.36 21 12 21s-5-1-5-1-6.19-2.05-1.52-7.56a5.77 5.77 0 0 1 5-2.81c.05 0 .1.01.15.01"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M22 12h-2"/><path d="m19.07 19.07-1.41-1.41"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M12 17v-4"/><path d="M12 13h4"/></svg>
+                Sunrise
+              </span>
+              <span id="sunrise-time" class="value">--:--</span>
+            </div>
+            <div class="result-item highlight">
+              <span class="label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Day Length
+              </span>
+              <span id="day-length" class="value">--h --m</span>
+            </div>
+             <div class="result-item small">
+              <span class="label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M22 12h-2"/><path d="m19.07 19.07-1.41-1.41"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M12 17v-4"/><path d="M12 13h4"/></svg>
+                 Sunset
+              </span>
+              <span id="sunset-time" class="value">--:--</span>
+            </div>
+          </div>
+
+          <div class="progress-container">
+            <h3 class="seasonal-title">Seasonal Context (24h)</h3>
+            <div class="seasonal-bar-frame">
+              <!-- Fill: 0 to Min (Guaranteed) -->
+              <div id="bar-min-fill" class="seasonal-bar-fill min-fill"></div>
+              <!-- Fill: Max to 24 (Unreachable) -->
+              <div id="bar-max-fill" class="seasonal-bar-fill max-fill"></div>
+              <!-- Indicator: Today -->
+              <div id="bar-current-indicator" class="seasonal-indicator"></div>
+              <!-- Rulers -->
+              <div class="seasonal-rulers">
+                  <span>0h</span>
+                  <span>12h</span>
+                  <span>24h</span>
+              </div>
+            </div>
+            <p id="day-percent" class="progress-label">--%</p>
+          </div>
+
+          <p id="solstice-countdown" class="countdown-text"></p>
+
+          <div class="timeline-wrapper">
+             <h3 class="seasonal-title">24h Day Phases</h3>
+             <div id="day-timeline" class="day-timeline">
+                <!-- Segments will be injected here -->
+             </div>
+             <div class="timeline-labels">
+                 <span>00:00</span>
+                 <span>12:00</span>
+                 <span>23:59</span>
+             </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

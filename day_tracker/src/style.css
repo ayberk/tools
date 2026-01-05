@@ -1,0 +1,508 @@
+:root {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-color: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.3);
+  --error-color: #f87171;
+  --font-family: 'Outfit', sans-serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Scrollbar */
+  --scrollbar-track: rgba(255, 255, 255, 0.05);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+}
+
+body {
+  transition: background 1.5s ease-in-out;
+}
+
+/* Dynamic Sky Gradients */
+/* Night: Deep dark blue to black */
+body.sky-night {
+  background: linear-gradient(135deg, #020617 0%, #1e1b4b 100%);
+}
+
+/* Astro: Slightening lightening */
+body.sky-astro {
+  background: linear-gradient(135deg, #0f172a 0%, #312e81 100%);
+}
+
+/* Nautical: Deep blue */
+body.sky-nautical {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+}
+
+/* Civil: Muted dark blue */
+body.sky-civil {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+/* Sunrise/Sunset: Deep purple/orange, not neon */
+body.sky-sunrise, body.sky-sunset {
+  background: linear-gradient(135deg, #7c2d12 0%, #831843 100%);
+}
+
+/* Day: Mid-tone Blue (Slate-600/Blue-700) - comfortable for reading */
+body.sky-day {
+  background: linear-gradient(135deg, #0f172a 0%, #0369a1 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-gradient); /* Fallback */
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto; /* Allow scrolling */
+  padding: 20px 0; /* Add some padding for mobile */
+}
+
+#app {
+  width: 100%;
+  max-width: 480px;
+  padding: 1rem;
+}
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  background: linear-gradient(to right, #fff, #cbd5e1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Input Styles */
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 12px 40px 12px 0;
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--card-border);
+  outline: none;
+  font-family: var(--font-family);
+  transition: var(--transition);
+}
+
+input:focus {
+  border-bottom-color: var(--accent-color);
+}
+
+label {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  pointer-events: none;
+  transition: var(--transition);
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+  top: -10px;
+  font-size: 0.875rem;
+  color: var(--accent-color);
+}
+
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent-color);
+  transition: var(--transition);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+input:focus ~ .underline {
+  width: 100%;
+}
+
+/* Locate Button */
+#locate-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  width: auto; /* Override generic button width */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+#locate-btn:hover {
+  color: var(--accent-color);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none; /* Override generic button shadow */
+  transform: translateY(-50%); /* Override generic button transform */
+}
+
+input {
+  /* ... existing styles ... */
+  padding-right: 40px; /* Make room for the button */
+}
+
+/* Button Styles */
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-family);
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Results */
+#result-container {
+  margin-top: 2.5rem;
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.updating {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1.5rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.label svg {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+.value {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+#location-name {
+  font-size: 1.5rem;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+.highlight .value {
+  font-size: 2rem;
+  color: var(--accent-color);
+  text-shadow: 0 0 20px var(--accent-glow);
+}
+
+.small .value {
+  font-size: 1rem;
+}
+
+.divider {
+  height: 1px;
+  background: var(--card-border);
+  margin: 1rem 0;
+  width: 100%;
+}
+
+#error-message {
+  margin-top: 1.5rem;
+  color: var(--error-color);
+  font-size: 0.9rem;
+  background: rgba(248, 113, 113, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Seasonal Bar 24h */
+.progress-container {
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.seasonal-title {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.seasonal-bar-frame {
+  position: relative;
+  width: 100%;
+  height: 16px; /* Slightly taller for visibility */
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.seasonal-bar-fill {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: width 1s ease-out;
+}
+
+.min-fill {
+  left: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.max-fill {
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 1px solid rgba(255,255,255,0.05);
+}
+
+.seasonal-indicator {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-color);
+  transition: left 1s ease-out;
+  z-index: 10;
+  transform: translateX(-50%); /* Center indicator on value */
+}
+
+.seasonal-rulers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+  pointer-events: none;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.2);
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-top: 4px;
+}
+
+.countdown-text {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  margin-top: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards 0.5s;
+}
+
+/* Forecast */
+
+
+/* Loader */
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Local Time */
+.local-time {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 0.25rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 300;
+}
+
+/* Day Timeline */
+.timeline-wrapper {
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.day-timeline {
+    position: relative;
+    width: 100%;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+}
+
+.timeline-segment {
+    height: 100%;
+    /* Width will be set via JS */
+}
+
+/* Twilight Colors */
+.phase-night { background-color: #0b1026; }    /* Deepest Night */
+.phase-astro { background-color: #2b3a67; }    /* Astronomical Twilight */
+.phase-nautical { background-color: #49639c; } /* Nautical Twilight */
+.phase-civil { background-color: #7b9ccb; }    /* Civil Twilight */
+.phase-day { background-color: #ffd84d; }      /* Day - Sunny Yellow */
+
+.timeline-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 4px;
+    padding: 0 2px;
+}
+
+/* Sun Cycle Visualization */
+.sun-cycle-container {
+    width: 100%;
+    height: 120px;
+    margin: 1.5rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sun-path-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.sun-labels {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10%; /* Match the arc start/end approximately */
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: -10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#sun-icon-group {
+    transition: transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
