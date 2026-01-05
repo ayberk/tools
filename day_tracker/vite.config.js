@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  base: '/day-tracker/',
+  base: '/tools/day-tracker',
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
