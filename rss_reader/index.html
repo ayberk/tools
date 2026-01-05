@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <title>Minimalist RSS Reader - Free Web Feed Aggregator</title>
+    <meta name="description" content="A clean, distraction-free online RSS reader. Read your favorite news feeds instantly with our minimalist interface. No account required.">
+    <meta name="keywords" content="RSS reader, web feed, minimalist, news aggregator, static rss reader, free rss reader">
+    <meta name="author" content="Ayberk">
+    <link rel="canonical" href="https://ayberk.github.io/rss_feeder/"> <!-- Placeholder for actual URL -->
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ayberk.github.io/rss_feeder/">
+    <meta property="og:title" content="Minimalist RSS Reader - Free Web Feed Aggregator">
+    <meta property="og:description" content="Read your favorite news feeds instantly with our minimalist interface. No account required.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ayberk.github.io/rss_feeder/">
+    <meta property="twitter:title" content="Minimalist RSS Reader">
+    <meta property="twitter:description" content="A clean, distraction-free online RSS reader.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>RSS Reader</h1>
+        </header>
+
+        <main>
+            <div class="input-group">
+                <input type="url" id="feed-url" placeholder="Enter RSS Feed URL" required autocomplete="off">
+                <button id="fetch-btn" aria-label="Fetch Feed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </div>
+            <div id="error-message" class="hidden"></div>
+            <div id="feed-container" class="feed-grid"></div>
+            <div id="pagination" class="hidden">
+                 <button id="prev-btn" class="page-btn">Previous</button>
+                 <span id="page-info"></span>
+                 <button id="next-btn" class="page-btn">Next</button>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
